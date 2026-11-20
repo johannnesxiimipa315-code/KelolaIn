@@ -1,7 +1,7 @@
-<x-layout title="Daftar | KelolaUang">
+<x-layout title="Daftar | KelolaIn">
     <section class="auth-card">
         <p class="eyebrow">Mulai lebih teratur</p>
-        <h1>Buat akun KelolaUang.</h1>
+        <h1>Buat akun KelolaIn.</h1>
         <p class="muted">Simpan catatan pemasukan dan pengeluaranmu dengan aman.</p>
         @if ($errors->any())
             <div class="error-box" role="alert"><ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>

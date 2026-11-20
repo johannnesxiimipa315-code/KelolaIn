@@ -1,4 +1,4 @@
-<x-layout title="Dashboard | KelolaUang">
+<x-layout title="Dashboard | KelolaIn">
     <div class="site-container dashboard-shell">
         <div class="dashboard-heading">
             <div><p class="eyebrow">Ringkasan pribadi</p><h1>Halo, {{ auth()->user()->nama }}.</h1><p class="muted">Mulai dari satu catatan kecil hari ini.</p></div>

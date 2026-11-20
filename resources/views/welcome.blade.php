@@ -3,17 +3,17 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="KelolaUang membantu mahasiswa mencatat dan memahami keuangan pribadi.">
-        <title>KelolaUang | Catatan keuangan pribadi</title>
+        <meta name="description" content="KelolaIn membantu mahasiswa mencatat dan memahami keuangan pribadi.">
+        <title>KelolaIn | Catatan keuangan pribadi</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="min-h-screen bg-slate-50 text-slate-950 antialiased">
         <header class="site-header">
             <div class="site-container header-inner">
-                <a class="brand" href="{{ url('/') }}" aria-label="KelolaUang, beranda">
+                <a class="brand" href="{{ url('/') }}" aria-label="KelolaIn, beranda">
                     <span class="brand-mark" aria-hidden="true">K</span>
                     <span>
-                        <strong>KelolaUang</strong>
+                        <strong>KelolaIn</strong>
                         <small>Catatan keuangan pribadi</small>
                     </span>
                 </a>
@@ -100,7 +100,7 @@
 
         <footer class="site-footer">
             <div class="site-container footer-inner">
-                <span>KelolaUang</span>
+                <span>KelolaIn</span>
                 <span>Catat dengan sadar, kelola dengan tenang.</span>
             </div>
         </footer>

@@ -1,6 +1,6 @@
-<x-layout title="Masuk | KelolaUang">
+<x-layout title="Masuk | KelolaIn">
     <section class="auth-card">
-        <p class="eyebrow">KelolaUang</p>
+        <p class="eyebrow">KelolaIn</p>
         <h1>Masuk ke catatan keuanganmu.</h1>
         <p class="muted">Lihat saldo dan kelola transaksi pribadi dalam satu tempat.</p>
         @if ($errors->any())
