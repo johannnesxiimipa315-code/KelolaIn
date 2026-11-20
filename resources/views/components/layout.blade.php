@@ -10,7 +10,7 @@
     <header class="app-header">
         <div class="app-header-inner">
             <a class="brand" href="{{ auth()->check() ? route('dashboard') : url('/') }}" aria-label="KelolaIn, beranda">
-                <span class="brand-mark" aria-hidden="true">K</span>
+                <img class="brand-mark" src="{{ asset('logo_kelolain.png') }}" alt="Logo KelolaIn">
                 <span class="brand-copy"><strong>KelolaIn</strong><small>Catat. Pahami. Kendalikan.</small></span>
             </a>
             @auth

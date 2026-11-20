@@ -10,7 +10,7 @@
 <body class="app-body">
     <header class="app-header">
         <div class="app-header-inner">
-            <a class="brand" href="{{ url('/') }}" aria-label="KelolaIn, beranda"><span class="brand-mark" aria-hidden="true">K</span><span class="brand-copy"><strong>KelolaIn</strong><small>Catat. Pahami. Kendalikan.</small></span></a>
+            <a class="brand" href="{{ url('/') }}" aria-label="KelolaIn, beranda"><img class="brand-mark" src="{{ asset('logo_kelolain.png') }}" alt="Logo KelolaIn"><span class="brand-copy"><strong>KelolaIn</strong><small>Catat. Pahami. Kendalikan.</small></span></a>
             <nav class="public-nav" aria-label="Navigasi halaman"><a href="#fitur">Fitur</a><a href="#alur">Cara kerja</a><a class="header-action" href="{{ route('register') }}">Buat akun</a></nav>
         </div>
     </header>
