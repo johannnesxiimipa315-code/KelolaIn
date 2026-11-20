@@ -7,7 +7,7 @@
                 <p class="page-lead">Satu pandangan untuk memahami ke mana uangmu bergerak.</p>
             </div>
             <div class="topbar-actions">
-                <span class="data-status">Data contoh</span>
+                <form class="period-filter dashboard-period-filter" method="get" action="{{ route('dashboard') }}"><label><span class="sr-only">Bulan</span><select name="month"><option value="1" @selected($month === 1)>Januari</option><option value="2" @selected($month === 2)>Februari</option><option value="3" @selected($month === 3)>Maret</option><option value="4" @selected($month === 4)>April</option><option value="5" @selected($month === 5)>Mei</option><option value="6" @selected($month === 6)>Juni</option><option value="7" @selected($month === 7)>Juli</option><option value="8" @selected($month === 8)>Agustus</option><option value="9" @selected($month === 9)>September</option><option value="10" @selected($month === 10)>Oktober</option><option value="11" @selected($month === 11)>November</option><option value="12" @selected($month === 12)>Desember</option></select></label><label><span class="sr-only">Tahun</span><select name="year"><option>{{ now()->year }}</option><option>{{ now()->year - 1 }}</option></select></label><button class="secondary-action" type="submit">Terapkan</button></form>
                 <a class="primary-action" href="{{ route('transactions.index') }}">+ Tambah transaksi</a>
             </div>
         </div>
@@ -15,50 +15,40 @@
         <section class="balance-hero" aria-label="Saldo utama">
             <div>
                 <span class="balance-kicker">Saldo tersedia</span>
-                <strong class="balance-value">Rp 2.450.000</strong>
-                <span class="balance-note"><span class="trend-up">↗ 8,4%</span> dibanding bulan lalu</span>
+                <strong class="balance-value">Rp {{ number_format($allIncome - $allExpense, 0, ',', '.') }}</strong>
+                <span class="balance-note"><span class="trend-up">{{ $allIncome > 0 ? number_format(($income / $allIncome) * 100, 1, ',', '.') : '0' }}%</span> pemasukan tercatat bulan ini</span>
             </div>
             <div class="balance-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
             <div class="balance-meta"><span>Periode aktif</span><strong>November 2026</strong><a href="#analitik">Lihat analitik <span aria-hidden="true">↗</span></a></div>
         </section>
 
         <section class="metric-grid" aria-label="Metrik bulan ini">
-            <article class="metric-card"><div class="metric-icon income-icon" aria-hidden="true">↙</div><div><span>Total pemasukan</span><strong>Rp 4.000.000</strong><small><b>+12,5%</b> dari bulan lalu</small></div></article>
-            <article class="metric-card"><div class="metric-icon expense-icon" aria-hidden="true">↗</div><div><span>Total pengeluaran</span><strong>Rp 1.550.000</strong><small><b>+4,2%</b> dari bulan lalu</small></div></article>
-            <article class="metric-card"><div class="metric-icon saving-icon" aria-hidden="true">◎</div><div><span>Rasio menabung</span><strong>61,2%</strong><small><b>Sehat</b> dari pemasukan</small></div></article>
+            <article class="metric-card"><div class="metric-icon income-icon" aria-hidden="true">↙</div><div><span>Total pemasukan</span><strong>Rp {{ number_format($income, 0, ',', '.') }}</strong><small><b>{{ $monthly->sum('income') > 0 ? 'Aktif' : 'Belum ada' }}</b> bulan ini</small></div></article>
+            <article class="metric-card"><div class="metric-icon expense-icon" aria-hidden="true">↗</div><div><span>Total pengeluaran</span><strong>Rp {{ number_format($expense, 0, ',', '.') }}</strong><small><b>{{ $expense > 0 ? 'Terpantau' : 'Belum ada' }}</b> bulan ini</small></div></article>
+            <article class="metric-card"><div class="metric-icon saving-icon" aria-hidden="true">◎</div><div><span>Rasio menabung</span><strong>{{ $income > 0 ? number_format((($income - $expense) / $income) * 100, 1, ',', '.') : '0' }}%</strong><small><b>{{ $income > 0 && $expense <= $income ? 'Sehat' : 'Perlu dicek' }}</b> dari pemasukan</small></div></article>
         </section>
 
         <div class="dashboard-grid" id="analitik">
             <section class="panel monthly-panel">
                 <div class="panel-heading"><div><span class="panel-label">Arus kas</span><h2>Pemasukan & pengeluaran</h2></div><label class="select-wrap"><span class="sr-only">Pilih periode grafik</span><select><option>2026</option><option>2025</option></select></label></div>
                 <div class="chart-legend"><span><i class="legend-dot income-dot"></i>Pemasukan</span><span><i class="legend-dot expense-dot"></i>Pengeluaran</span></div>
-                <div class="line-chart" role="img" aria-label="Grafik contoh pemasukan dan pengeluaran per bulan dari Januari sampai Desember 2026">
-                    <div class="chart-y-axis"><span>Rp 5 jt</span><span>Rp 4 jt</span><span>Rp 3 jt</span><span>Rp 2 jt</span><span>Rp 1 jt</span><span>Rp 0</span></div>
-                    <svg viewBox="0 0 720 260" preserveAspectRatio="none" aria-hidden="true">
-                        <defs><linearGradient id="incomeFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2764e8" stop-opacity=".22"/><stop offset="1" stop-color="#2764e8" stop-opacity="0"/></linearGradient></defs>
-                        <g class="chart-grid-lines"><line x1="0" y1="12" x2="720" y2="12"/><line x1="0" y1="59" x2="720" y2="59"/><line x1="0" y1="106" x2="720" y2="106"/><line x1="0" y1="153" x2="720" y2="153"/><line x1="0" y1="200" x2="720" y2="200"/><line x1="0" y1="247" x2="720" y2="247"/></g>
-                        <path class="income-area" d="M0,94 C30,84 36,108 65,83 S105,64 130,78 S165,98 195,58 S235,76 260,59 S300,42 325,67 S365,85 390,54 S425,40 455,58 S490,85 520,46 S560,62 585,35 S625,46 650,28 S695,45 720,20 L720,247 L0,247 Z"/>
-                        <path class="income-line" d="M0,94 C30,84 36,108 65,83 S105,64 130,78 S165,98 195,58 S235,76 260,59 S300,42 325,67 S365,85 390,54 S425,40 455,58 S490,85 520,46 S560,62 585,35 S625,46 650,28 S695,45 720,20"/>
-                        <path class="expense-line" d="M0,186 C30,178 37,192 65,169 S105,182 130,157 S165,177 195,143 S235,158 260,136 S300,150 325,124 S365,143 390,118 S425,130 455,108 S490,120 520,94 S560,115 585,91 S625,102 650,80 S695,92 720,70"/>
-                    </svg>
-                    <div class="chart-x-axis"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>Mei</span><span>Jun</span><span>Jul</span><span>Agu</span><span>Sep</span><span>Okt</span><span>Nov</span><span>Des</span></div>
-                </div>
+                <div class="bar-chart" role="img" aria-label="Grafik pemasukan dan pengeluaran per bulan {{ $year }}"><div class="bar-chart-grid"><span>Rp {{ number_format(max(1, $monthly->max(fn ($item) => max($item['income'], $item['expense']))) / 1000000, 1, ',', '.') }} jt</span><span>Rp 0</span></div><div class="bar-chart-columns">@foreach ($monthly as $item)<div class="month-column"><div class="month-bars"><span class="monthly-income" style="height: {{ $monthly->max(fn ($entry) => max($entry['income'], $entry['expense'])) > 0 ? max(4, ($item['income'] / $monthly->max(fn ($entry) => max($entry['income'], $entry['expense']))) * 100) : 4 }}%" title="Pemasukan {{ number_format($item['income'], 0, ',', '.') }}"></span><span class="monthly-expense" style="height: {{ $monthly->max(fn ($entry) => max($entry['income'], $entry['expense'])) > 0 ? max(4, ($item['expense'] / $monthly->max(fn ($entry) => max($entry['income'], $entry['expense']))) * 100) : 4 }}%" title="Pengeluaran {{ number_format($item['expense'], 0, ',', '.') }}"></span></div><small>{{ $item['label'] }}</small></div>@endforeach</div></div>
             </section>
 
             <section class="panel category-panel" id="kategori">
                 <div class="panel-heading"><div><span class="panel-label">Komposisi</span><h2>Pengeluaran per kategori</h2></div><a class="text-action" href="{{ route('transactions.index') }}">Selengkapnya</a></div>
-                <div class="donut-wrap"><div class="donut-chart" role="img" aria-label="Grafik contoh pengeluaran per kategori"><span>Rp 1,55 jt<small>Total</small></span></div><div class="category-legend"><div><i class="category-dot food"></i><span>Makanan</span><strong>36%</strong></div><div><i class="category-dot transport"></i><span>Transportasi</span><strong>24%</strong></div><div><i class="category-dot bills"></i><span>Tagihan</span><strong>22%</strong></div><div><i class="category-dot other"></i><span>Lainnya</span><strong>18%</strong></div></div></div>
+                <div class="donut-wrap"><div class="donut-chart" role="img" aria-label="Grafik pengeluaran per kategori"><span>Rp {{ number_format($expense, 0, ',', '.') }}<small>Total</small></span></div><div class="category-legend">@forelse ($expenseByCategory->take(4) as $index => $category)<div><i class="category-dot category-color-{{ $index }}"></i><span>{{ $category['name'] }}</span><strong>{{ $expense > 0 ? number_format(($category['total'] / $expense) * 100, 0) : 0 }}%</strong></div>@empty<div class="empty-chart-note">Belum ada pengeluaran pada periode ini.</div>@endforelse</div></div>
             </section>
         </div>
 
         <div class="dashboard-grid lower-grid">
             <section class="panel category-bars-panel">
                 <div class="panel-heading"><div><span class="panel-label">Perbandingan</span><h2>Pemasukan per kategori</h2></div><span class="panel-period">November 2026</span></div>
-                <div class="category-bars"><div class="bar-row"><div><span>Gaji</span><strong>Rp 3.200.000</strong></div><div class="bar-track"><span style="width: 82%"></span></div></div><div class="bar-row"><div><span>Freelance</span><strong>Rp 600.000</strong></div><div class="bar-track"><span style="width: 42%"></span></div></div><div class="bar-row"><div><span>Bonus</span><strong>Rp 200.000</strong></div><div class="bar-track"><span style="width: 20%"></span></div></div></div>
+                <div class="category-bars">@forelse ($incomeByCategory->take(4) as $category)<div class="bar-row"><div><span>{{ $category['name'] }}</span><strong>Rp {{ number_format($category['total'], 0, ',', '.') }}</strong></div><div class="bar-track"><span style="width: {{ $income > 0 ? max(4, ($category['total'] / $income) * 100) : 4 }}%"></span></div></div>@empty<div class="empty-chart-note">Belum ada pemasukan pada periode ini.</div>@endforelse</div>
             </section>
             <section class="panel recent-panel" id="transaksi">
                 <div class="panel-heading"><div><span class="panel-label">Aktivitas</span><h2>Transaksi terbaru</h2></div><a class="text-action" href="{{ route('transactions.index') }}">Lihat semua</a></div>
-                <div class="transaction-list"><div class="transaction-row"><span class="transaction-symbol food">M</span><div><strong>Makan siang</strong><small>Hari ini · Makanan</small></div><b class="amount-out">- Rp 45.000</b></div><div class="transaction-row"><span class="transaction-symbol income">G</span><div><strong>Gaji bulanan</strong><small>01 Nov · Gaji</small></div><b class="amount-in">+ Rp 3.200.000</b></div><div class="transaction-row"><span class="transaction-symbol bills">T</span><div><strong>Tagihan internet</strong><small>03 Nov · Tagihan</small></div><b class="amount-out">- Rp 350.000</b></div></div>
+                <div class="transaction-list">@forelse ($recent as $transaction)<div class="transaction-row"><span class="transaction-symbol {{ $transaction->category->jenis === 'pemasukan' ? 'income' : 'food' }}">{{ strtoupper(substr($transaction->category->nama_kategori, 0, 1)) }}</span><div><strong>{{ $transaction->keterangan ?: 'Tanpa keterangan' }}</strong><small>{{ $transaction->tanggal->translatedFormat('d M') }} · {{ $transaction->category->nama_kategori }}</small></div><b class="{{ $transaction->category->jenis === 'pemasukan' ? 'amount-in' : 'amount-out' }}">{{ $transaction->category->jenis === 'pemasukan' ? '+' : '-' }} Rp {{ number_format($transaction->jumlah, 0, ',', '.') }}</b></div>@empty<div class="empty-chart-note">Belum ada transaksi. Tambahkan catatan pertamamu.</div>@endforelse</div>
             </section>
         </div>
 
